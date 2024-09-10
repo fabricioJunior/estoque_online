@@ -23,6 +23,7 @@ dependencies:
   get_it: ^7.6.0
   barcode: ^2.2.4
   json_annotation: ^4.8.1
+  logger: ^2.4.0
 
 
 dev_dependencies:

@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:core/datasources/hive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/web.dart';
 import 'package:siv_codebar/data_access/local/dt_ultima_sync_datasource.dart';
 import 'package:siv_codebar/domain/models/produto.dart';
 import 'package:siv_codebar/injections.dart';
@@ -10,6 +12,7 @@ import 'package:siv_codebar/routes.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
+  Bloc.observer = MyBlocObserve();
   await inicializarStorage({
     Produto: 1,
     SyncData: 2,
@@ -41,5 +44,14 @@ class MyHttpOverrides extends HttpOverrides {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+class MyBlocObserve extends BlocObserver {
+  final Logger logger = Logger();
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    logger.i('erro:', error: error, stackTrace: stackTrace);
+    super.onError(bloc, error, stackTrace);
   }
 }
