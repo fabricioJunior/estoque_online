@@ -15,15 +15,14 @@ class ProdutosRemoteClient {
   }) async {
     final queryParameters = <String, String>{};
 
-    var uri = Uri.http(
+    var uri = Uri.https(
       remoteServer,
       'estoque',
       queryParameters,
     );
 
-    var response = await client.get(
-      uri,
-    );
+    var response =
+        await client.get(uri, headers: {"Content-Type": "application/json"});
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw Exception(response.body);
     }

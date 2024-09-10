@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -20,10 +21,12 @@ int typeId(Type type) {
 Future<void> inicializarStorage(
   Map<Type, int> storageTypes,
 ) async {
-  final localDir = await getApplicationDocumentsDirectory();
-  var dir = Directory('${localDir.path}/mentor.hive');
+  if (!kIsWeb) {
+    final localDir = await getApplicationDocumentsDirectory();
+    var dir = Directory('${localDir.path}/mentor.hive');
+    Hive.init(dir.path);
+  }
 
-  Hive.init(dir.path);
   _verificarIndentificadores(storageTypes);
   //_verificarTiposDuplicados(storageTypes);
   _storageTypes = storageTypes;

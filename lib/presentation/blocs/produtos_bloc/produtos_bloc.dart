@@ -53,9 +53,9 @@ class ProdutosBloc extends Bloc<ProdutosEvent, ProdutosState> {
   ) async {
     try {
       emit(ProdutosCarregarEmProgresso.fromLastState(state));
-      time = Timer.periodic(const Duration(minutes: 1), (_) {
-        syncServerData();
-      });
+      // time = Timer.periodic(const Duration(minutes: 1), (_) {
+      //   syncServerData();
+      // });
       var produtos = await produtosRepository.buscaTodosProdutos();
 
       emit(
