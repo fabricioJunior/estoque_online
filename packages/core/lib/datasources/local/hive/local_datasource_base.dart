@@ -22,6 +22,8 @@ abstract class HiveLocalDatasourceBase<E extends StorageEntity, Key>
         var box = Hive.box(name);
         await box.close();
       }
+    } finally {
+      await Hive.deleteBoxFromDisk(name);
     }
     return await Hive.openBox<E>(
       name,
