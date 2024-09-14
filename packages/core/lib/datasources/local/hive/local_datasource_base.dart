@@ -18,13 +18,12 @@ abstract class HiveLocalDatasourceBase<E extends StorageEntity, Key>
         },
       );
     } catch (e) {
+      await Hive.deleteBoxFromDisk(name);
       if (Hive.isBoxOpen(name)) {
         var box = Hive.box(name);
         await box.close();
       }
-    } finally {
-      await Hive.deleteBoxFromDisk(name);
-    }
+    } finally {}
     return await Hive.openBox<E>(
       name,
       compactionStrategy: (_, deletedEntries) {
