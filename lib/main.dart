@@ -32,9 +32,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
+      initialRoute: initialRoute(),
       builder: (context, widget) => widget ?? const SizedBox(),
     );
+  }
+
+  String initialRoute() {
+    if (Platform.isWindows || Platform.isMacOS) {
+      return '/sync_page';
+    }
+    return '/';
   }
 }
 
