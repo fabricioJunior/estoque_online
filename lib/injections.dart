@@ -6,6 +6,7 @@ import 'package:siv_codebar/data_access/remote/produtos_remote_client.dart';
 
 import 'package:siv_codebar/presentation/blocs/produtos_bloc/produtos_bloc.dart';
 import 'package:siv_codebar/data_access/remote/produtos_local_client.dart';
+import 'package:siv_codebar/presentation/blocs/sync_bloc/sync_bloc.dart';
 import 'package:siv_codebar/repositories/produtos_repository.dart';
 import 'package:siv_codebar/services/code_bar_service.dart';
 import 'package:siv_codebar/services/print_service.dart';
@@ -36,6 +37,8 @@ void injections() async {
       sl<ProdutosRepository>(),
     )..add(ProdutosSincronizou()),
   );
+
+  sl.registerFactory<SyncBloc>(() => SyncBloc(sl()));
 
   sl.registerFactory<ProdutosLocalDatasource>(() => ProdutosLocalDatasource());
   sl.registerFactory<DtUltimaSyncDatasource>(() => DtUltimaSyncDatasource());

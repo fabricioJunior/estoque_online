@@ -7,11 +7,14 @@ import 'package:siv_codebar/repositories/produtos_repository.dart';
 
 class SyncBloc extends Bloc<SyncEvent, SyncState> {
   final ProdutosRepository produtosRepository;
-
+  late Timer timer;
   SyncBloc(
     this.produtosRepository,
   ) : super(SyncNaoInicializado(ultimaSincronizacao: DateTime(2020))) {
     on<SyncIniciou>(_onSyncIniciou);
+    timer = Timer.periodic(const Duration(minutes: 1), (_) {
+      add(SyncIniciou());
+    });
   }
 
   FutureOr<void> _onSyncIniciou(
