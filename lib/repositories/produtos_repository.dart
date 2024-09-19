@@ -39,17 +39,21 @@ class ProdutosRepository {
   }
 
   Future<void> syncServeData() async {
-    var dtUltimaAlteracao =
-        await dtUltimaSyncDatasource.fetch('produtos_serve');
-    var allProdutos =
-        await produtosClient.get(dtUltimaAlteracao: dtUltimaAlteracao?.data);
-    produtosRemoteClient.post(
+    var dtUltimaAlteracao = await dtUltimaSyncDatasource.fetch(
+      'produtos_serve',
+    );
+    var allProdutos = await produtosClient.get(
+      dtUltimaAlteracao: dtUltimaAlteracao?.data,
+    );
+    await produtosRemoteClient.post(
       allProdutos.map((e) => e.toDto()).toList(),
     );
-    await dtUltimaSyncDatasource.put(SyncData(
-      nome: 'produtos_serve',
-      data: DateTime.now(),
-    ));
+    await dtUltimaSyncDatasource.put(
+      SyncData(
+        nome: 'produtos_serve',
+        data: DateTime.now(),
+      ),
+    );
   }
 
   Future<void> syncLocalData() async {
