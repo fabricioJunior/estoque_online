@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:core/datasources/hive.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/web.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
   }
 
   String initialRoute() {
+    if (kIsWeb) {
+      return '/';
+    }
     if (Platform.isWindows || Platform.isMacOS) {
       return '/sync_page';
     }
