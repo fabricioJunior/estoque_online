@@ -21,7 +21,7 @@ class ProdutosLocalClient {
       queryParameters
           .addAll({'dtUltimaAlteracao': dtUltimaAlteracao.toIso8601String()});
     }
-    var uri = Uri.https(
+    var uri = Uri.http(
       localServer,
       'produtos',
       queryParameters,

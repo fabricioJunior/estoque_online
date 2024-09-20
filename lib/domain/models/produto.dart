@@ -12,6 +12,7 @@ class Produto extends StorageEntity {
   final int estoque;
   final String descricao;
   final String referencia;
+  @JsonKey(defaultValue: 0)
   final double valor;
 
   Produto(

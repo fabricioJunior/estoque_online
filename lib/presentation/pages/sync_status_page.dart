@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siv_codebar/injections.dart';
@@ -16,6 +14,7 @@ class SyncStatusPage extends StatelessWidget {
       body: BlocProvider(
         create: (context) => sl<SyncBloc>()..add(SyncIniciou()),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Sincronização',

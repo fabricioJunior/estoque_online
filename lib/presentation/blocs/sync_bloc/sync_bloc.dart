@@ -13,7 +13,9 @@ class SyncBloc extends Bloc<SyncEvent, SyncState> {
   ) : super(SyncNaoInicializado(ultimaSincronizacao: DateTime(2020))) {
     on<SyncIniciou>(_onSyncIniciou);
     timer = Timer.periodic(const Duration(minutes: 1), (_) {
-      add(SyncIniciou());
+      if (state is! SyncEmProgresso) {
+        add(SyncIniciou());
+      }
     });
   }
 
