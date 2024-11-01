@@ -24,8 +24,19 @@ class ProdutosBloc extends Bloc<ProdutosEvent, ProdutosState> {
     Emitter<ProdutosState> emit,
   ) async {
     try {
-      emit(ProdutosPesquisarEmProgresso(state, source: event.pesquisa));
-      var produtos = await produtosRepository.buscaProdutos(event.pesquisa);
+      emit(
+        ProdutosPesquisarEmProgresso(
+          state,
+          source: event.pesquisa,
+          cor: event.cor,
+          tamanho: event.tamanho,
+        ),
+      );
+      var produtos = await produtosRepository.buscaProdutos(
+        event.pesquisa,
+        cor: state.cor,
+        tamanho: state.tamanho,
+      );
 
       emit(ProdutosPesquisarSucesso(state, produtos: produtos.toList()));
     } catch (e, s) {
@@ -58,10 +69,23 @@ class ProdutosBloc extends Bloc<ProdutosEvent, ProdutosState> {
       // });
       var produtos = await produtosRepository.buscaTodosProdutos();
 
+      var tamanhos =
+          produtos.map((produto) => produto.tamanho).toSet().toList();
+
+      var cores = produtos.map((produto) => produto.cor).toSet().toList();
+
+      var produtosList = produtos.toList();
+
+      produtosList.sort((a, b) => b.estoque.compareTo(a.estoque));
+      tamanhos.sort((a, b) => a.compareTo(b));
+      cores.sort((a, b) => a.compareTo(b));
+
       emit(
         ProdutosCarregarSucesso.fromLastState(
           state,
-          produtos: produtos.toList(),
+          produtos: produtosList,
+          cores: cores,
+          tamanhos: tamanhos,
         ),
       );
       add(ProdutosSincronizou());

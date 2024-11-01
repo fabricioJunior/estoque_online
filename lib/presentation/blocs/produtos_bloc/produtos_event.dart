@@ -6,8 +6,13 @@ class ProdutosIniciou extends ProdutosEvent {}
 
 class ProdutosPesquisou extends ProdutosEvent {
   final String pesquisa;
-
-  ProdutosPesquisou(this.pesquisa);
+  final String? Function()? cor;
+  final String? Function()? tamanho;
+  ProdutosPesquisou(
+    this.pesquisa, {
+    this.cor,
+    this.tamanho,
+  });
 }
 
 class ProdutosSincronizou extends ProdutosEvent {}

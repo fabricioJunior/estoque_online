@@ -2,28 +2,53 @@ part of 'produtos_bloc.dart';
 
 abstract class ProdutosState {
   final List<Produto> produtos;
+  final List<String> tamanhos;
+  final List<String> cores;
   final String source;
+  final String? cor;
+  final String? tamanho;
 
   ProdutosState({
     required this.produtos,
     required this.source,
+    required this.cores,
+    required this.tamanhos,
+    this.cor,
+    this.tamanho,
   });
 
   ProdutosState.fromLastState(
     ProdutosState lastState, {
     List<Produto>? produtos,
+    List<String>? tamanhos,
+    List<String>? cores,
     String? source,
+    String? Function()? cor,
+    String? Function()? tamanho,
   })  : produtos = produtos ?? lastState.produtos,
-        source = source ?? lastState.source;
+        source = source ?? lastState.source,
+        cor = cor != null ? cor() : lastState.cor,
+        tamanho = tamanho != null ? tamanho() : lastState.tamanho,
+        cores = cores ?? lastState.cores,
+        tamanhos = tamanhos ?? lastState.tamanhos;
 }
 
 class ProdutosInicial extends ProdutosState {
-  ProdutosInicial({required super.produtos}) : super(source: '');
+  ProdutosInicial({required super.produtos})
+      : super(
+          source: '',
+          tamanhos: const [],
+          cores: const [],
+        );
 }
 
 class ProdutosPesquisarEmProgresso extends ProdutosState {
-  ProdutosPesquisarEmProgresso(super.lastState, {required String source})
-      : super.fromLastState(
+  ProdutosPesquisarEmProgresso(
+    super.lastState, {
+    required String source,
+    super.cor,
+    super.tamanho,
+  }) : super.fromLastState(
           source: source,
         );
 }
@@ -37,6 +62,8 @@ class ProdutosCarregarSucesso extends ProdutosState {
   ProdutosCarregarSucesso.fromLastState(
     super.lastState, {
     required super.produtos,
+    required super.tamanhos,
+    required super.cores,
   }) : super.fromLastState();
 }
 

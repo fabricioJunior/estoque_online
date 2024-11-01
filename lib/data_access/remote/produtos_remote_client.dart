@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:http/http.dart';
 import 'package:siv_codebar/data_access/remote/dtos/produto_remote_dto.dart';
@@ -39,8 +38,7 @@ class ProdutosRemoteClient {
       var response = await client.post(uri,
           headers: {"Content-Type": "application/json"},
           body: getPrettyJSONString(produto));
-      print(
-          '${produto.descricao} - ${produto.cor} - ${produto.tamanho} - ${produto.codigoDeBarras}');
+
       if (response.statusCode != 200 && response.statusCode != 201) {
         throw Exception(response.body);
       }

@@ -3,7 +3,6 @@ import 'package:siv_codebar/data_access/local/produtos_local_datasource.dart';
 import 'package:siv_codebar/data_access/remote/dtos/produto_remote_dto.dart';
 import 'package:siv_codebar/data_access/remote/produtos_local_client.dart';
 import 'package:siv_codebar/data_access/remote/produtos_remote_client.dart';
-
 import '../domain/models.dart';
 
 class ProdutosRepository {
@@ -30,14 +29,24 @@ class ProdutosRepository {
     return produtos;
   }
 
-  Future<Iterable<Produto>> buscaProdutos(String busca) async {
+  Future<Iterable<Produto>> buscaProdutos(
+    String busca, {
+    String? cor,
+    String? tamanho,
+  }) async {
     var produtos = await produtosLocalDatasource.fetchAll();
     var produtosFiltrados = produtos
         .where((produto) =>
-            produto.descricao.toUpperCase().contains(busca.toUpperCase()) ||
-            produto.cor.toUpperCase().contains(busca))
+                produto.descricao.toUpperCase().contains(busca.toUpperCase()) &&
+                (cor == null ? true : cor == produto.cor) &&
+                (tamanho == null ? true : tamanho == produto.tamanho)
+            //         ||
+            //         tamanho != null
+            //     ? produto.tamanho.toLowerCase() == tamanho.toUpperCase()
+            //     : false,
+            )
         .toList();
-    produtosFiltrados.sort((a, b) => a.estoque.compareTo(b.estoque));
+    produtosFiltrados.sort((a, b) => b.estoque.compareTo(a.estoque));
     return produtosFiltrados;
   }
 
