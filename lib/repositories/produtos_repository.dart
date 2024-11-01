@@ -32,10 +32,13 @@ class ProdutosRepository {
 
   Future<Iterable<Produto>> buscaProdutos(String busca) async {
     var produtos = await produtosLocalDatasource.fetchAll();
-
-    return produtos.where((produto) =>
-        produto.descricao.toUpperCase().contains(busca.toUpperCase()) ||
-        produto.cor.toUpperCase().contains(busca));
+    var produtosFiltrados = produtos
+        .where((produto) =>
+            produto.descricao.toUpperCase().contains(busca.toUpperCase()) ||
+            produto.cor.toUpperCase().contains(busca))
+        .toList();
+    produtosFiltrados.sort((a, b) => a.estoque.compareTo(b.estoque));
+    return produtosFiltrados;
   }
 
   Future<void> syncServeData() async {
