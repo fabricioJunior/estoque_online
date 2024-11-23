@@ -114,55 +114,65 @@ class PesquisarProdutosPage extends StatelessWidget {
           controller: ScrollController(),
           itemBuilder: (context, index) {
             var produto = state.produtos[index];
-            return _produtoCard(produto);
+            return _produtoCard(context, produto);
           },
         );
       });
 
-  Widget _produtoCard(Produto produto) => Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
+  Widget _produtoCard(BuildContext context, Produto produto) => Card(
+        child: Ink(
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                '/produto_page',
+                arguments: produto,
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Flexible(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Flexible(child: Text(produto.descricao)),
-                        const SizedBox(
-                          width: 8.0,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(child: Text(produto.descricao)),
+                            const SizedBox(
+                              width: 8.0,
+                            ),
+                            Text(produto.cor),
+                            const SizedBox(
+                              width: 8.0,
+                            ),
+                            Text(produto.tamanho),
+                            const SizedBox(
+                              width: 8.0,
+                            ),
+                          ],
                         ),
-                        Text(produto.cor),
                         const SizedBox(
-                          width: 8.0,
+                          height: 8.0,
                         ),
-                        Text(produto.tamanho),
-                        const SizedBox(
-                          width: 8.0,
-                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Quantidade em Estoque: ${produto.estoque}',
+                            ),
+                            Text(produto.valor.toString())
+                          ],
+                        )
                       ],
                     ),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Quantidade em Estoque: ${produto.estoque}',
-                        ),
-                        Text(produto.valor.toString())
-                      ],
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       );

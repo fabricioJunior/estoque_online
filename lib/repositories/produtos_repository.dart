@@ -23,6 +23,13 @@ class ProdutosRepository {
     return produtos.toList();
   }
 
+  Future<Iterable<Produto>> buscaProdutoDaMesmaReferecia(
+    String referencia,
+  ) async {
+    var produtos = await produtosLocalDatasource.fetchAll();
+    return produtos.where((produto) => produto.referencia == referencia);
+  }
+
   Future<Iterable<Produto>> buscaTodosProdutos() async {
     var produtos = await produtosLocalDatasource.fetchAll();
 
