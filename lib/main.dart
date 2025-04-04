@@ -39,12 +39,12 @@ class MyApp extends StatelessWidget {
   }
 
   String initialRoute() {
-    // if (kIsWeb) {
-    //   return '/';
-    // }
-    // if (Platform.isWindows) {
-    //   return '/sync_page';
-    // }
+    if (kIsWeb) {
+      return '/';
+    }
+    if (Platform.isWindows) {
+      return '/sync_page';
+    }
     return '/';
   }
 }
