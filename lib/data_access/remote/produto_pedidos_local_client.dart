@@ -1,6 +1,6 @@
+import 'dart:convert';
+
 import 'package:http/http.dart';
-import 'package:siv_codebar/data_access/remote/dtos/produto_pedido_dto.dart';
-import 'package:siv_codebar/domain/models/produto_pedido.dart';
 
 class ProdutoPedidosLocalClient {
   final String localServer;
@@ -11,10 +11,10 @@ class ProdutoPedidosLocalClient {
     required this.client,
   });
 
-  Future<List<ProdutoPedido>> getProdutoPedidosDeHoje() async {
+  Future<List<Map<String, dynamic>>> getProdutoPedidosDeHoje() async {
     var uri = Uri.http(
       localServer,
-      'produtosPedido',
+      'pedidos',
     );
     var response = await client.get(uri);
 
@@ -22,8 +22,8 @@ class ProdutoPedidosLocalClient {
       throw Exception(response.body);
     }
 
-    return (response.body as List<dynamic>)
-        .map((e) => ProdutoPedidoDto.fromJson(e))
+    return (jsonDecode(response.body) as List<dynamic>)
+        .map((e) => e as Map<String, dynamic>)
         .toList();
   }
 }

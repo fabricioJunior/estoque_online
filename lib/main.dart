@@ -42,9 +42,10 @@ class MyApp extends StatelessWidget {
     if (kIsWeb) {
       return '/';
     }
-    if (Platform.isWindows) {
+    if (Platform.isWindows || Platform.isMacOS) {
       return '/sync_page';
     }
+
     return '/';
   }
 }

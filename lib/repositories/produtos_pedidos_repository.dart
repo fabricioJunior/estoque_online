@@ -1,9 +1,10 @@
 import 'package:siv_codebar/data_access/remote/produto_pedidos_local_client.dart';
 import 'package:siv_codebar/data_access/remote/produto_pedidos_remote_client.dart';
+import 'package:siv_codebar/domain/models/nf_result.dart';
 
 class ProdutosPedidosRepository {
   final ProdutoPedidosLocalClient localClient;
-  final ProdutoPedidosRemoteClient remoteClient;
+  final PedidosRemoteClient remoteClient;
 
   ProdutosPedidosRepository({
     required this.localClient,
@@ -15,7 +16,11 @@ class ProdutosPedidosRepository {
     await remoteClient.postProdutoPedido(produtosPedidoLocal);
   }
 
-  Future<String> emitirNotaFiscalDoDia() async {
+  Future<NfResult> emitirNotaFiscalDoDia() async {
     return remoteClient.emitirNotaFiscalDoDia();
+  }
+
+  Future<NfResult> emitirNotaFiscal(int idPedido) async {
+    return remoteClient.emitirNotaFiscal(idPedido);
   }
 }

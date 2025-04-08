@@ -13,33 +13,45 @@ class SyncStatusPage extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
         create: (context) => sl<SyncBloc>()..add(SyncIniciou()),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Sincronização',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            BlocBuilder<SyncBloc, SyncState>(builder: (context, state) {
-              if (state is SyncEmProgresso) {
-                return _syncInProgress();
-              }
-              if (state is SyncSucesso) {
-                return _syncSucess(
-                    ultimaSincronizacao: state.ultimaSincronizacao);
-              }
-              if (state is SyncFalha) {
-                return _syncFalha(
-                  ultimaSincronizacao: state.ultimaSincronizacao,
-                  erro: state.erroMessage,
-                );
-              }
-              return const SizedBox();
-            }),
-          ],
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Sincronização',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              BlocBuilder<SyncBloc, SyncState>(builder: (context, state) {
+                if (state is SyncEmProgresso) {
+                  return _syncInProgress();
+                }
+                if (state is SyncSucesso) {
+                  return _syncSucess(
+                      ultimaSincronizacao: state.ultimaSincronizacao);
+                }
+                if (state is SyncFalha) {
+                  return _syncFalha(
+                    ultimaSincronizacao: state.ultimaSincronizacao,
+                    erro: state.erroMessage,
+                  );
+                }
+                return const SizedBox();
+              }),
+              const SizedBox(
+                height: 16,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/nf_page');
+                },
+                child: const Text('Notas fiscais'),
+              )
+            ],
+          ),
         ),
       ),
     );

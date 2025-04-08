@@ -15,7 +15,7 @@ class ProdutosRemoteClient {
   }) async {
     final queryParameters = <String, String>{};
 
-    var uri = Uri.https(
+    var uri = Uri.http(
       remoteServer,
       'estoque',
       queryParameters,
@@ -30,7 +30,7 @@ class ProdutosRemoteClient {
   }
 
   Future<void> post(List<ProdutoRemoteDto> produtos) async {
-    var uri = Uri.https(
+    var uri = Uri.http(
       remoteServer,
       'estoque',
     );
