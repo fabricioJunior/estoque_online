@@ -78,5 +78,5 @@ void injections() async {
 //String server() => '192.168.191.1';
 String localServer() => 'localhost:5176';
 //String localServer() => 'localhost';
-String remoteServer() => 'localhost:5080';
-//String remoteServer() => 'estoque.coralcloud.app';
+//String remoteServer() => 'localhost:5080';
+String remoteServer() => 'estoque.coralcloud.app';
