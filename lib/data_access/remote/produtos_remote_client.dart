@@ -15,14 +15,21 @@ class ProdutosRemoteClient {
   }) async {
     final queryParameters = <String, String>{};
 
-    var uri = Uri.http(
+    var uri = Uri.https(
       remoteServer,
       'estoque',
       queryParameters,
     );
 
-    var response =
-        await client.get(uri, headers: {"Content-Type": "application/json"});
+    var response = await client.get(uri, headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+      "Access-Control-Allow-Credentials": true
+          .toString(), // Required for cookies, authorization headers with HTTPS
+      "Access-Control-Allow-Headers":
+          "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+      "Access-Control-Allow-Methods": "POST,GET, OPTIONS"
+    });
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw Exception(response.body);
     }

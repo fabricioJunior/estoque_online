@@ -12,7 +12,7 @@ import 'package:siv_codebar/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  HttpOverrides.global = MyHttpOverrides();
+  //HttpOverrides.global = MyHttpOverrides();
   Bloc.observer = MyBlocObserve();
   await inicializarStorage({
     Produto: 1,
@@ -39,9 +39,9 @@ class MyApp extends StatelessWidget {
   }
 
   String initialRoute() {
-    if (kIsWeb) {
-      return '/';
-    }
+    return '/';
+
+    if (kIsWeb) {}
     if (Platform.isWindows || Platform.isMacOS) {
       return '/sync_page';
     }
