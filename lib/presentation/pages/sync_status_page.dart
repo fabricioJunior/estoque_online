@@ -49,6 +49,12 @@ class SyncStatusPage extends StatelessWidget {
                   Navigator.of(context).pushNamed('/nf_page');
                 },
                 child: const Text('Notas fiscais'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/pagamentos_page');
+                },
+                child: const Text('Orçamentos e links'),
               )
             ],
           ),

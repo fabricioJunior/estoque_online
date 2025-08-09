@@ -1,18 +1,43 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class ProdutoPedido {
+import 'package:equatable/equatable.dart';
+
+//  idPedido: number;
+// descricao: string;
+// cor: string;
+// tamanho: string;
+// quantidade: number;
+// valor: number;
+// desconto: number;
+// codigoDeBarras: string;
+
+class ProdutoPedido extends Equatable {
   final int idPedido;
   final String descricao;
-  final String tamanho;
   final String cor;
+  final String tamanho;
+  final int quantidade;
+
   final double valor;
   final double desconto;
-  final int quantidade;
   final String codigoDeBarras;
   final String dsrefer;
 
-  ProdutoPedido({
+  @override
+  List<Object?> get props => [
+        idPedido,
+        descricao,
+        tamanho,
+        cor,
+        valor,
+        desconto,
+        quantidade,
+        codigoDeBarras,
+        dsrefer,
+      ];
+
+  const ProdutoPedido({
     required this.idPedido,
     required this.descricao,
     required this.tamanho,
@@ -29,7 +54,7 @@ class ProdutoPedido {
     String? descricao,
     String? tamanho,
     String? cor,
-    double? preco,
+    double? valor,
     String? formaDePagamento,
     int? quantidade,
   }) {
@@ -38,7 +63,7 @@ class ProdutoPedido {
       descricao: descricao ?? this.descricao,
       tamanho: tamanho ?? this.tamanho,
       cor: cor ?? this.cor,
-      valor: preco ?? this.valor,
+      valor: valor ?? this.valor,
       quantidade: quantidade ?? this.quantidade,
       codigoDeBarras: codigoDeBarras,
       desconto: desconto,
@@ -52,7 +77,7 @@ class ProdutoPedido {
       'descricao': descricao,
       'tamanho': tamanho,
       'cor': cor,
-      'preco': valor,
+      'valor': valor,
       'desconto': desconto,
       'quantidade': quantidade,
       'codigoDeBarras': codigoDeBarras,
@@ -65,11 +90,11 @@ class ProdutoPedido {
       descricao: map['descricao'] as String,
       tamanho: map['tamanho'] as String,
       cor: map['cor'] as String,
-      valor: map['preco'] as double,
-      desconto: map['desconto'] as double,
+      valor: double.tryParse(map['valor'].toString()) ?? 0,
+      desconto: double.tryParse(map['desconto'].toString()) ?? 0,
       quantidade: map['quantidade'] as int,
       codigoDeBarras: map['codigoDeBarras'] as String,
-      dsrefer: map['dsrefer'],
+      dsrefer: map['dsrefer'] ?? '',
     );
   }
 

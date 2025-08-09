@@ -37,7 +37,7 @@ class ProdutosRemoteClient {
   }
 
   Future<void> post(List<ProdutoRemoteDto> produtos) async {
-    var uri = Uri.http(
+    var uri = Uri.https(
       remoteServer,
       'estoque',
     );

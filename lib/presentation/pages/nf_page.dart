@@ -1,9 +1,8 @@
-import 'package:core/html_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siv_codebar/injections.dart';
-import 'package:siv_codebar/presentation/blocs/produtos_pedido_bloc/pedidos_bloc.dart';
+import 'package:siv_codebar/presentation/blocs/pedidos_bloc/pedidos_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../domain/models/nf_result.dart';

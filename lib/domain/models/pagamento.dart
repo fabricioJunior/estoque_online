@@ -17,7 +17,7 @@ class Pagamento {
   factory Pagamento.fromMap(Map<String, dynamic> map) {
     return Pagamento(
       formaDePagamento: map['formaDePagamento'] as String,
-      valor: map['valor'] as double,
+      valor: double.tryParse(map['valor'].toString()) ?? 00,
     );
   }
 

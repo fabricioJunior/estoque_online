@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:siv_codebar/domain/models/pedido.dart';
 
 class ProdutoPedidosLocalClient {
   final String localServer;
@@ -11,7 +12,7 @@ class ProdutoPedidosLocalClient {
     required this.client,
   });
 
-  Future<List<Map<String, dynamic>>> getProdutoPedidosDeHoje() async {
+  Future<List<Map<String, dynamic>>> getPedidosDeHoje() async {
     var uri = Uri.http(
       localServer,
       'pedidos',
@@ -25,5 +26,19 @@ class ProdutoPedidosLocalClient {
     return (jsonDecode(response.body) as List<dynamic>)
         .map((e) => e as Map<String, dynamic>)
         .toList();
+  }
+
+  Future<Pedido> getPedido(int idPedido) async {
+    var uri = Uri.http(
+      localServer,
+      '/$idPedido',
+    );
+    var response = await client.get(uri);
+
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw Exception(response.body);
+    }
+
+    return Pedido.fromMap(jsonDecode(response.body) as Map<String, dynamic>);
   }
 }

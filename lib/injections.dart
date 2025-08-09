@@ -2,14 +2,15 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:siv_codebar/data_access/local/dt_ultima_sync_datasource.dart';
 import 'package:siv_codebar/data_access/local/produtos_local_datasource.dart';
-import 'package:siv_codebar/data_access/remote/produto_pedidos_local_client.dart';
+import 'package:siv_codebar/data_access/remote/pedidos_local_client.dart';
 import 'package:siv_codebar/data_access/remote/produto_pedidos_remote_client.dart';
 import 'package:siv_codebar/data_access/remote/produtos_remote_client.dart';
+import 'package:siv_codebar/presentation/blocs/pagamentos_bloc/pagamentos_bloc.dart';
 import 'package:siv_codebar/presentation/blocs/produto_bloc/produto_bloc.dart';
 
 import 'package:siv_codebar/presentation/blocs/produtos_bloc/produtos_bloc.dart';
 import 'package:siv_codebar/data_access/remote/produtos_local_client.dart';
-import 'package:siv_codebar/presentation/blocs/produtos_pedido_bloc/pedidos_bloc.dart';
+import 'package:siv_codebar/presentation/blocs/pedidos_bloc/pedidos_bloc.dart';
 import 'package:siv_codebar/presentation/blocs/sync_bloc/sync_bloc.dart';
 import 'package:siv_codebar/repositories/produtos_pedidos_repository.dart';
 import 'package:siv_codebar/repositories/produtos_repository.dart';
@@ -37,8 +38,8 @@ void injections() async {
     ),
   );
 
-  sl.registerFactory<ProdutosPedidosRepository>(
-    () => ProdutosPedidosRepository(localClient: sl(), remoteClient: sl()),
+  sl.registerFactory<PedidosRepository>(
+    () => PedidosRepository(localClient: sl(), remoteClient: sl()),
   );
 
   sl.registerFactory(() => PedidosBloc(sl()));
@@ -73,10 +74,12 @@ void injections() async {
       localServer: localServer(),
     ),
   );
+
+  sl.registerFactory<PagamentosBloc>(() => PagamentosBloc(sl()));
 }
 
 //String server() => '192.168.191.1';
-String localServer() => 'localhost:5176';
+String localServer() => '192.168.191.1';
 //String localServer() => 'localhost';
 //String remoteServer() => 'localhost:5080';
 String remoteServer() => 'estoque.coralcloud.app';

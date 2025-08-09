@@ -7,7 +7,7 @@ part 'pedidos_state.dart';
 part 'pedidos_event.dart';
 
 class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
-  final ProdutosPedidosRepository repository;
+  final PedidosRepository repository;
 
   PedidosBloc(this.repository) : super(PedidosNaoInicializado()) {
     on<PedidosEnviouNFDoDia>(_onProdutosPedidoEnviouNFDoDia);
@@ -20,7 +20,7 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
   ) async {
     try {
       emit(PedidosSincronizarEmProgresso());
-      await repository.syncProdutosPedido();
+      await repository.syncPedidos();
       emit(PedidosSincronizarSucesso());
     } catch (e, s) {
       addError(e, s);
@@ -43,7 +43,7 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
   ) async {
     try {
       emit(PedidosSincronizarEmProgresso());
-      await repository.syncProdutosPedido();
+      await repository.syncPedidos();
       emit(PedidosSincronizarSucesso());
     } catch (e, s) {
       addError(e, s);

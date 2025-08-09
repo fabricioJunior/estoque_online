@@ -39,8 +39,6 @@ class MyApp extends StatelessWidget {
   }
 
   String initialRoute() {
-    return '/';
-
     if (kIsWeb) {}
     if (Platform.isWindows || Platform.isMacOS) {
       return '/sync_page';
