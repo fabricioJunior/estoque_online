@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siv_codebar/domain/models/pedido.dart';
 import 'package:siv_codebar/repositories/produtos_pedidos_repository.dart';
@@ -14,6 +15,7 @@ class PagamentosBloc extends Bloc<PagamentoEvent, PagamentosState> {
   ) : super(PagamentosNaoInicializados()) {
     on<PagamentosIniciou>(_onPagamentosIniciou);
     on<PagamentoCriouNovoPedido>(_onPagamentoCriouNovoPedido);
+    on<PagamentoExcluiu>(_onPagamentoExcluiu);
   }
 
   FutureOr<void> _onPagamentosIniciou(
@@ -35,13 +37,28 @@ class PagamentosBloc extends Bloc<PagamentoEvent, PagamentosState> {
   ) async {
     try {
       emit(PagamentosNovoPedidoEmProgresso());
-      await _pedidosRepository.syncPedido(event.idPedido, event.desconto);
+      await _pedidosRepository.syncPedidoParaPagamento(
+          event.idPedido, event.desconto);
       await _pedidosRepository.url(event.idPedido);
 
       var pedidos = await _pedidosRepository.getPedidos();
       emit(PagamentosCarregarSucesso(pedidos: pedidos));
     } catch (e) {
-      emit(PagamentosNovoFalha());
+      emit(PagamentosNovoFalha(errorMessage: e.toString()));
+    }
+  }
+
+  FutureOr<void> _onPagamentoExcluiu(
+    PagamentoExcluiu event,
+    Emitter<PagamentosState> emit,
+  ) async {
+    try {
+      emit(PagamentosCarregarEmProgresso());
+      await _pedidosRepository.excluir(event.idPedido);
+      var pedidos = await _pedidosRepository.getPedidos();
+      emit(PagamentosCarregarSucesso(pedidos: pedidos));
+    } catch (e) {
+      emit(PagamentosCarregarFalha());
     }
   }
 }

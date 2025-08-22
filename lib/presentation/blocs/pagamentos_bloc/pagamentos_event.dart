@@ -10,3 +10,9 @@ class PagamentoCriouNovoPedido extends PagamentoEvent {
 
   PagamentoCriouNovoPedido({required this.idPedido, required this.desconto});
 }
+
+class PagamentoExcluiu extends PagamentoEvent {
+  final int idPedido;
+
+  PagamentoExcluiu({required this.idPedido});
+}

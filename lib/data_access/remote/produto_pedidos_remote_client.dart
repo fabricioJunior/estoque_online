@@ -11,10 +11,10 @@ class PedidosRemoteClient {
   PedidosRemoteClient({required this.remoteServer, required this.client});
 
   Future<void> postProdutoPedido(List<Map<String, dynamic>> pedidos) async {
-    var uri = Uri.https(
+    var uri = Uri.parse(
       remoteServer,
-      'pedidos',
     );
+    uri = uri.replace(path: 'pedidos');
     var response = await client.post(
       uri,
       headers: {"Content-Type": "application/json"},
@@ -27,10 +27,10 @@ class PedidosRemoteClient {
   }
 
   Future<NfResult> emitirNotaFiscalDoDia() async {
-    var uri = Uri.https(
+    var uri = Uri.parse(
       remoteServer,
-      'fiscal/notaFiscalDoDia',
     );
+    uri = uri.replace(path: 'fiscal/notaFiscalDoDia');
     var response = await client.post(
       uri,
       headers: {"Content-Type": "application/json"},
@@ -43,8 +43,11 @@ class PedidosRemoteClient {
   }
 
   Future<NfResult> emitirNotaFiscal(int idPedido) async {
-    var uri =
-        Uri.http(remoteServer, 'fiscal', {'idPedido': idPedido.toString()});
+    var uri = Uri.parse(
+      remoteServer,
+    );
+    uri = uri.replace(
+        path: 'fiscal', queryParameters: {'idPedido': idPedido.toString()});
     var response = await client.post(
       uri,
       headers: {"Content-Type": "application/json"},
@@ -57,24 +60,26 @@ class PedidosRemoteClient {
   }
 
   Future<String> getUrl(int idPedido) async {
-    var uri = Uri.https(
+    var uri = Uri.parse(
       remoteServer,
-      '/pagamento/url?idPedido=$idPedido',
+    );
+    uri = uri.replace(
+      path: 'pagamento/url',
+      queryParameters: {'idPedido': idPedido.toString()},
     );
     var response = await client.get(
       uri,
       headers: {"Content-Type": "application/json"},
     );
 
-    var json = jsonDecode(response.body);
-    return json.toString();
+    return response.body;
   }
 
   Future<List<Pedido>> getPedidos() async {
-    var uri = Uri.https(
+    var uri = Uri.parse(
       remoteServer,
-      'pagamento/pedidosComPagamentoPendente',
     );
+    uri = uri.replace(path: 'pagamento/pedidosComPagamentoPendente');
     var response = await client.get(
       uri,
       headers: {"Content-Type": "application/json"},
@@ -84,5 +89,22 @@ class PedidosRemoteClient {
     return (json as List<dynamic>)
         .map((e) => Pedido.fromMap(e as Map<String, dynamic>))
         .toList();
+  }
+
+  Future<void> excluirPagamento(int idPedido) async {
+    var uri = Uri.parse(
+      remoteServer,
+    );
+    uri = uri.replace(path: 'pagamento/cancelar', queryParameters: {
+      'idPedido': idPedido.toString(),
+    });
+
+    var response = await client.post(
+      uri,
+      headers: {"Content-Type": "application/json"},
+    );
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw Exception(response.body);
+    }
   }
 }

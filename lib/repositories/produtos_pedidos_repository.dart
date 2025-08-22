@@ -18,14 +18,24 @@ class PedidosRepository {
     await remoteClient.postProdutoPedido(produtosPedidoLocal);
   }
 
-  Future<void> syncPedido(int idPedido, double desconto) async {
+  Future<void> syncPedidoParaNF(int idPedido, double desconto) async {
+    var pedido = await localClient.getPedido(idPedido);
+    await remoteClient.postProdutoPedido([pedido.toMap()]);
+  }
+
+  Future<Pedido> syncPedidoParaPagamento(int idPedido, double desconto) async {
     var pedido = await localClient.getPedido(idPedido);
     if (desconto != 00) {
       var produtos = List<ProdutoPedido>.from(pedido.produtos);
       double total = 0;
+
       for (var produto in produtos) {
         pedido.produtos.remove(produto);
         total += produto.valor;
+      }
+      if (total <= desconto) {
+        throw Exception(
+            'Pedido não pode ser pago com desconto maior ou igual ao total');
       }
       var totalComDesconto = total - desconto;
       pedido.produtos.add(ProdutoPedido(
@@ -40,7 +50,9 @@ class PedidosRepository {
           dsrefer: 'desconto'));
     }
 
-    await remoteClient.postProdutoPedido([pedido.toMap()]);
+    await remoteClient
+        .postProdutoPedido([pedido.copyWith(pedidoPagamento: true).toMap()]);
+    return pedido;
   }
 
   Future<NfResult> emitirNotaFiscalDoDia() async {
@@ -57,5 +69,9 @@ class PedidosRepository {
 
   Future<String> url(int idPedido) {
     return remoteClient.getUrl(idPedido);
+  }
+
+  Future<void> excluir(int idPedido) {
+    return remoteClient.excluirPagamento(idPedido);
   }
 }

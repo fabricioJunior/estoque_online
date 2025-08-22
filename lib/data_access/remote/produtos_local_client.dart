@@ -21,11 +21,10 @@ class ProdutosLocalClient {
       queryParameters
           .addAll({'dtUltimaAlteracao': dtUltimaAlteracao.toIso8601String()});
     }
-    var uri = Uri.http(
+    var uri = Uri.parse(
       localServer,
-      'produtos',
-      queryParameters,
     );
+    uri = uri.replace(path: 'produtos', queryParameters: queryParameters);
 
     var response = await client.get(
       uri,

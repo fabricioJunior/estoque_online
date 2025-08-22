@@ -20,6 +20,10 @@ class Pedido {
   final String? urlDePagamento;
   final String? urlDanfe;
   final String? comprovanteDePagamento;
+
+  final bool? pedidoPagamento;
+
+  final bool? pagamentoPendente;
   Pedido({
     required this.id,
     required this.total,
@@ -31,6 +35,8 @@ class Pedido {
     required this.urlDanfe,
     required this.urlDePagamento,
     required this.comprovanteDePagamento,
+    this.pedidoPagamento = false,
+    this.pagamentoPendente = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -45,7 +51,42 @@ class Pedido {
       'urlDePagamento': urlDePagamento,
       'urlDanfe': urlDanfe,
       'comprovanteDePagamento': comprovanteDePagamento,
+      'pedidoPagamento': pedidoPagamento,
+      'pagamentoPendente': pagamentoPendente,
     };
+  }
+
+  // ...existing code...
+
+  Pedido copyWith({
+    int? id,
+    double? total,
+    double? desconto,
+    double? taxaDeEntrega,
+    List<ProdutoPedido>? produtos,
+    List<Pagamento>? pagamentos,
+    Pessoa? pessoa,
+    String? urlDePagamento,
+    String? urlDanfe,
+    String? comprovanteDePagamento,
+    bool? pedidoPagamento,
+    bool? pagamentoPendente,
+  }) {
+    return Pedido(
+      id: id ?? this.id,
+      total: total ?? this.total,
+      desconto: desconto ?? this.desconto,
+      taxaDeEntrega: taxaDeEntrega ?? this.taxaDeEntrega,
+      produtos: produtos ?? this.produtos,
+      pagamentos: pagamentos ?? this.pagamentos,
+      pessoa: pessoa ?? this.pessoa,
+      urlDePagamento: urlDePagamento ?? this.urlDePagamento,
+      urlDanfe: urlDanfe ?? this.urlDanfe,
+      comprovanteDePagamento:
+          comprovanteDePagamento ?? this.comprovanteDePagamento,
+      pedidoPagamento: pedidoPagamento ?? this.pedidoPagamento,
+      pagamentoPendente: pagamentoPendente ?? this.pagamentoPendente,
+    );
   }
 
   factory Pedido.fromMap(Map<String, dynamic> map) {
@@ -71,7 +112,8 @@ class Pedido {
               map['pessoa'],
             )
           : null,
-      comprovanteDePagamento: map['comprovanteDePagamento'],
+      comprovanteDePagamento: map['urlComprovante'],
+      pagamentoPendente: map['pagamentoPendente'] as bool?,
     );
   }
 

@@ -15,11 +15,10 @@ class ProdutosRemoteClient {
   }) async {
     final queryParameters = <String, String>{};
 
-    var uri = Uri.https(
+    var uri = Uri.parse(
       remoteServer,
-      'estoque',
-      queryParameters,
     );
+    uri = uri.replace(path: 'estoque', queryParameters: queryParameters);
 
     var response = await client.get(uri, headers: {
       "Content-Type": "application/json",
@@ -37,10 +36,10 @@ class ProdutosRemoteClient {
   }
 
   Future<void> post(List<ProdutoRemoteDto> produtos) async {
-    var uri = Uri.https(
+    var uri = Uri.parse(
       remoteServer,
-      'estoque',
     );
+    uri = uri.replace(path: 'estoque');
     for (var produto in produtos) {
       var response = await client.post(uri,
           headers: {"Content-Type": "application/json"},

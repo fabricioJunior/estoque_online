@@ -3,28 +3,25 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:siv_codebar/domain/models/cliente.dart';
 
-class ClientesClient { 
-   final String server;
+class ClientesClient {
+  final String server;
   final Client client;
 
   ClientesClient({required this.server, required this.client});
 
   Future<List<Cliente>> clientes(String busca) async {
-     final queryParameters = {
+    final queryParameters = {
       'busca': busca,
     };
-    var uri = Uri.http(
+    var uri = Uri.parse(
       server,
-      'api/pessoas',
-      queryParameters,
     );
+    uri = uri.replace(path: 'api/pessoas', queryParameters: queryParameters);
 
     var response = await client.get(
       uri,
     );
     return criarObjetos(response);
-
-
   }
 
   List<Cliente> criarObjetos(Response response) {

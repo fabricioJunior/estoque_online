@@ -1,7 +1,10 @@
 part of 'pagamentos_bloc.dart';
 
-abstract class PagamentosState {
+abstract class PagamentosState extends Equatable {
   List<Pedido> get pedidos;
+
+  @override
+  List<Object?> get props => [pedidos];
 }
 
 class PagamentosNaoInicializados extends PagamentosState {
@@ -41,4 +44,11 @@ class PagamentosNovoPedidoSucesso extends PagamentosState {
 class PagamentosNovoFalha extends PagamentosState {
   @override
   List<Pedido> get pedidos => [];
+
+  final String? errorMessage;
+
+  @override
+  List<Object?> get props => [errorMessage, pedidos];
+
+  PagamentosNovoFalha({this.errorMessage});
 }

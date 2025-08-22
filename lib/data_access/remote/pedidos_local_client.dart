@@ -13,10 +13,10 @@ class ProdutoPedidosLocalClient {
   });
 
   Future<List<Map<String, dynamic>>> getPedidosDeHoje() async {
-    var uri = Uri.http(
+    var uri = Uri.parse(
       localServer,
-      'pedidos',
     );
+    uri = uri.replace(path: 'pedidos');
     var response = await client.get(uri);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
@@ -29,10 +29,10 @@ class ProdutoPedidosLocalClient {
   }
 
   Future<Pedido> getPedido(int idPedido) async {
-    var uri = Uri.http(
+    var uri = Uri.parse(
       localServer,
-      '/$idPedido',
     );
+    uri = uri.replace(path: '$idPedido');
     var response = await client.get(uri);
 
     if (response.statusCode != 200 && response.statusCode != 201) {

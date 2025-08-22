@@ -1,6 +1,6 @@
 import '../models.dart';
 
-abstract interface class ProdutosRepository {
+abstract interface class IProdutosRepository {
   Future<List<Produto>> recuperarProdutosDoServidor({
     String? cor,
     String? tamanho,
